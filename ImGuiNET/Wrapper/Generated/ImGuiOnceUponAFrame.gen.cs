@@ -1,6 +1,7 @@
 using System;
-using System.Text;
 using UnityEngine;
+using System.Runtime.CompilerServices;
+using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
@@ -20,7 +21,7 @@ namespace ImGuiNET
         public ref int RefFrame => ref UnsafeUtility.AsRef<int>(&NativePtr->RefFrame);
         public void Destroy()
         {
-            ImGuiNative.ImGuiOnceUponAFrame_destroy(NativePtr);
+            ImGuiNative.ImGuiOnceUponAFrame_destroy((ImGuiOnceUponAFrame*)(NativePtr));
         }
     }
 }

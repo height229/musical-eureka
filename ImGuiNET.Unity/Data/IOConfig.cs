@@ -47,9 +47,6 @@ namespace ImGuiNET.Unity
         [Tooltip("[BETA] Set to true to only allow moving windows when clicked+dragged from the title bar. Windows without a title bar are not affected.")]
         public bool MoveFromTitleOnly;
 
-        [Tooltip("[BETA] Compact window memory usage when unused. Set to -1.0f to disable.")]
-        public float MemoryCompactTimer;
-
         public void SetDefaults()
         {
             var context = ImGui.CreateContext();
@@ -74,7 +71,6 @@ namespace ImGuiNET.Unity
             io.ConfigInputTextCursorBlink = TextCursorBlink;
             io.ConfigWindowsResizeFromEdges = ResizeFromEdges;
             io.ConfigWindowsMoveFromTitleBarOnly = MoveFromTitleOnly;
-            io.ConfigWindowsMemoryCompactTimer = MemoryCompactTimer;
         }
 
         public void SetFrom(ImGuiIOPtr io)
@@ -93,7 +89,6 @@ namespace ImGuiNET.Unity
             TextCursorBlink = io.ConfigInputTextCursorBlink;
             ResizeFromEdges = io.ConfigWindowsResizeFromEdges;
             MoveFromTitleOnly = io.ConfigWindowsMoveFromTitleBarOnly;
-            MemoryCompactTimer = io.ConfigWindowsMemoryCompactTimer;
         }
     }
 }

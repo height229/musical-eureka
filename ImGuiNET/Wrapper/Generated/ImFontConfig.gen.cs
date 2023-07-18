@@ -1,6 +1,7 @@
 using System;
-using System.Text;
 using UnityEngine;
+using System.Runtime.CompilerServices;
+using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
@@ -21,7 +22,7 @@ namespace ImGuiNET
         public float GlyphMinAdvanceX;
         public float GlyphMaxAdvanceX;
         public byte MergeMode;
-        public uint RasterizerFlags;
+        public uint FontBuilderFlags;
         public float RasterizerMultiply;
         public ushort EllipsisChar;
         public fixed byte Name[40];
@@ -49,14 +50,14 @@ namespace ImGuiNET
         public ref float GlyphMinAdvanceX => ref UnsafeUtility.AsRef<float>(&NativePtr->GlyphMinAdvanceX);
         public ref float GlyphMaxAdvanceX => ref UnsafeUtility.AsRef<float>(&NativePtr->GlyphMaxAdvanceX);
         public ref bool MergeMode => ref UnsafeUtility.AsRef<bool>(&NativePtr->MergeMode);
-        public ref uint RasterizerFlags => ref UnsafeUtility.AsRef<uint>(&NativePtr->RasterizerFlags);
+        public ref uint FontBuilderFlags => ref UnsafeUtility.AsRef<uint>(&NativePtr->FontBuilderFlags);
         public ref float RasterizerMultiply => ref UnsafeUtility.AsRef<float>(&NativePtr->RasterizerMultiply);
         public ref ushort EllipsisChar => ref UnsafeUtility.AsRef<ushort>(&NativePtr->EllipsisChar);
         public RangeAccessor<byte> Name => new RangeAccessor<byte>(NativePtr->Name, 40);
         public ImFontPtr DstFont => new ImFontPtr(NativePtr->DstFont);
         public void Destroy()
         {
-            ImGuiNative.ImFontConfig_destroy(NativePtr);
+            ImGuiNative.ImFontConfig_destroy((ImFontConfig*)(NativePtr));
         }
     }
 }

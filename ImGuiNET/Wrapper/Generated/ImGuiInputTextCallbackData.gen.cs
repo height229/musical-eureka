@@ -1,12 +1,14 @@
 using System;
-using System.Text;
 using UnityEngine;
+using System.Runtime.CompilerServices;
+using System.Text;
 using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
     public unsafe partial struct ImGuiInputTextCallbackData
     {
+        public IntPtr Ctx;
         public ImGuiInputTextFlags EventFlag;
         public ImGuiInputTextFlags Flags;
         public void* UserData;
@@ -28,6 +30,7 @@ namespace ImGuiNET
         public static implicit operator ImGuiInputTextCallbackDataPtr(ImGuiInputTextCallbackData* nativePtr) => new ImGuiInputTextCallbackDataPtr(nativePtr);
         public static implicit operator ImGuiInputTextCallbackData* (ImGuiInputTextCallbackDataPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiInputTextCallbackDataPtr(IntPtr nativePtr) => new ImGuiInputTextCallbackDataPtr(nativePtr);
+        public ref IntPtr Ctx => ref UnsafeUtility.AsRef<IntPtr>(&NativePtr->Ctx);
         public ref ImGuiInputTextFlags EventFlag => ref UnsafeUtility.AsRef<ImGuiInputTextFlags>(&NativePtr->EventFlag);
         public ref ImGuiInputTextFlags Flags => ref UnsafeUtility.AsRef<ImGuiInputTextFlags>(&NativePtr->Flags);
         public IntPtr UserData { get => (IntPtr)NativePtr->UserData; set => NativePtr->UserData = (void*)value; }
@@ -40,20 +43,28 @@ namespace ImGuiNET
         public ref int CursorPos => ref UnsafeUtility.AsRef<int>(&NativePtr->CursorPos);
         public ref int SelectionStart => ref UnsafeUtility.AsRef<int>(&NativePtr->SelectionStart);
         public ref int SelectionEnd => ref UnsafeUtility.AsRef<int>(&NativePtr->SelectionEnd);
+        public void ClearSelection()
+        {
+            ImGuiNative.ImGuiInputTextCallbackData_ClearSelection((ImGuiInputTextCallbackData*)(NativePtr));
+        }
         public void DeleteChars(int pos, int bytes_count)
         {
-            ImGuiNative.ImGuiInputTextCallbackData_DeleteChars(NativePtr, pos, bytes_count);
+            ImGuiNative.ImGuiInputTextCallbackData_DeleteChars((ImGuiInputTextCallbackData*)(NativePtr), pos, bytes_count);
         }
         public void Destroy()
         {
-            ImGuiNative.ImGuiInputTextCallbackData_destroy(NativePtr);
+            ImGuiNative.ImGuiInputTextCallbackData_destroy((ImGuiInputTextCallbackData*)(NativePtr));
         }
         public bool HasSelection()
         {
-            byte ret = ImGuiNative.ImGuiInputTextCallbackData_HasSelection(NativePtr);
+            byte ret = ImGuiNative.ImGuiInputTextCallbackData_HasSelection((ImGuiInputTextCallbackData*)(NativePtr));
             return ret != 0;
         }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+        public void InsertChars(int pos, ReadOnlySpan<char> text)
+#else
         public void InsertChars(int pos, string text)
+#endif
         {
             byte* native_text;
             int text_byteCount = 0;
@@ -74,11 +85,15 @@ namespace ImGuiNET
             }
             else { native_text = null; }
             byte* native_text_end = null;
-            ImGuiNative.ImGuiInputTextCallbackData_InsertChars(NativePtr, pos, native_text, native_text_end);
+            ImGuiNative.ImGuiInputTextCallbackData_InsertChars((ImGuiInputTextCallbackData*)(NativePtr), pos, native_text, native_text_end);
             if (text_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_text);
             }
+        }
+        public void SelectAll()
+        {
+            ImGuiNative.ImGuiInputTextCallbackData_SelectAll((ImGuiInputTextCallbackData*)(NativePtr));
         }
     }
 }

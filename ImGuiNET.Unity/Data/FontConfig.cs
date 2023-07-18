@@ -36,9 +36,6 @@ namespace ImGuiNET.Unity
         [Tooltip("Merge into previous ImFont, so you can combine multiple inputs font into one ImFont. You may want to use GlyphOffset.y when merge font of different heights.")]
         public bool MergeIntoPrevious;
 
-        [Tooltip("Settings for custom font rasterizer (e.g. FreeType). Leave as zero if you aren't using one.")]
-        public uint RasterizerFlags;
-
         [Tooltip("Brighten (>1.0f) or darken (<1.0f) font output. Brightening small fonts may be a good workaround to make them more readable.")]
         public float RasterizerMultiply;
 
@@ -70,7 +67,6 @@ namespace ImGuiNET.Unity
             im.GlyphMinAdvanceX = GlyphMinAdvanceX;
             im.GlyphMaxAdvanceX = GlyphMaxAdvanceX;
             im.MergeMode = MergeIntoPrevious;
-            im.RasterizerFlags = RasterizerFlags;
             im.RasterizerMultiply = RasterizerMultiply;
             im.EllipsisChar = EllipsisChar;
 
@@ -90,7 +86,6 @@ namespace ImGuiNET.Unity
             GlyphMinAdvanceX = im.GlyphMinAdvanceX;
             GlyphMaxAdvanceX = im.GlyphMaxAdvanceX;
             MergeIntoPrevious = im.MergeMode;
-            RasterizerFlags = im.RasterizerFlags;
             RasterizerMultiply = im.RasterizerMultiply;
             EllipsisChar = (char)im.EllipsisChar;
 
